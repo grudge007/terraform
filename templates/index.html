@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Information Form</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="text-center">User Information</h3>
+                    </div>
+                    <div class="card-body">
+                        <form action="/resources" method="post">
+                            <div class="form-group">
+                                <label for="os_type">Select OS:</label>
+                                <select class="form-control" name="os_type" id="os_type" required>
+                                    <option value="ubuntu-cloud">Ubuntu</option>
+                                    <option value="debian-cloud">Debian</option>
+                                </select>
+                            </div>
+                            <div class="form-group mt-3">
+                                <label for="vm_name">VM Name:</label>
+                                <input type="text" class="form-control" id="vm_name" name="vm_name" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary mt-3">Next</button>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

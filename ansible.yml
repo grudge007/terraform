@@ -1,0 +1,11 @@
+
+- hosts: vmgroup
+  tasks:
+    - name: Run the network command on the VM
+      shell: "qm guest cmd 119 network-get-interfaces | grep 'ip-address' | awk '{print $3}' > ip.txt && awk 'NR==7' ip.txt"
+      register: command_output
+
+    - name: Display the output on machine-1
+      debug:
+        msg: "{{ command_output.stdout }}"
+

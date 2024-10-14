@@ -1,0 +1,1 @@
+cat vmip.out

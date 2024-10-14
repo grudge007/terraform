@@ -1,0 +1,121 @@
+from flask import Flask, render_template, request, redirect, url_for
+import os
+import subprocess
+app = Flask(__name__)
+
+# Store VM configuration details
+vm_config = {
+    "vm_name": "",
+    "os_type": "",
+    "ram": "",
+    "cpu_cores": "",
+    "storage": "",
+    "username": "",
+    "password": ""
+}
+
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+@app.route('/resources', methods=['POST'])
+def resources():
+    # Collect OS type and VM name
+    vm_config["vm_name"] = request.form['vm_name']
+    vm_config["os_type"] = request.form['os_type']
+    
+    # Proceed to resources configuration
+    return render_template('resources.html')
+
+@app.route('/credentials', methods=['POST'])
+def credentials():
+    # Collect RAM, CPU cores, and storage details
+    vm_config["ram"] = request.form['ram']
+    vm_config["cpu_cores"] = request.form['cpu_cores']
+    vm_config["storage"] = request.form['storage']
+    
+    # Proceed to credentials configuration
+    return render_template('credentials.html')
+
+@app.route('/create_vm', methods=['POST'])
+def create_vm():
+    # Collect username and password
+    vm_config["username"] = request.form['username']
+    vm_config["password"] = request.form['password']
+
+    # Generate vars.tf file dynamically
+    generate_vars_tf()
+
+    # Run the Terraform script to provision the VM
+    os.system('./script.sh')
+
+    # Display success message or summary
+    return redirect(url_for('result'))
+
+
+#@app.route('/result')
+#def result():
+    # Render the result page after the VM provisioning
+#    return render_template('result.html', vm_name=vm_config['vm_name'])
+
+@app.route('/result')
+def result():
+    try:
+        output = subprocess.check_output('./vmid.sh', shell=True, text=True)
+    except subprocess.CalledProcessError as e:
+        output = f"Error executing script: {e}"
+
+    # Assuming the script outputs "vmid = 113"
+    vmid = output.strip()  # Capture the output, will display as is
+
+    return render_template('result.html', vm_name=vm_config['vm_name'], vmid=vmid)
+
+
+def generate_vars_tf():
+    with open('vars.tf', 'w') as f:
+        f.write(f'''
+variable "vm_name" {{
+  description = "Name of the VM"
+  type        = string
+  default     = "{vm_config['vm_name']}"
+}}
+
+variable "template_name" {{
+  description = "Name of the template to clone"
+  type        = string
+  default     = "{vm_config['os_type']}"
+}}
+
+variable "vm_cores" {{
+  description = "Number of CPU cores"
+  type        = number
+  default     = {vm_config['cpu_cores']}
+}}
+
+variable "vm_memory" {{
+  description = "Amount of RAM in MB"
+  type        = number
+  default     = {vm_config['ram']}
+}}
+
+variable "vm_storage" {{
+  description = "Amount of Storage in GB"
+  type        = number
+  default     = {vm_config['storage']}
+}}
+
+variable "ci_user" {{
+  description = "Cloud-init username"
+  type        = string
+  default     = "{vm_config['username']}"
+}}
+
+variable "ci_passwd" {{
+  description = "Cloud-init password"
+  type        = string
+  default     = "{vm_config['password']}"
+}}
+        ''')
+
+if __name__ == '__main__':
+    app.run(debug=True, host='0.0.0.0', port=8000 )
