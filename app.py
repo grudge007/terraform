@@ -52,7 +52,7 @@ def create_vm():
     os.system('./script.sh')
     
     # Wait for the VM to be provisioned
-    time.sleep(60)
+    time.sleep(30)
 
     # Redirect to the result page
     return redirect(url_for('result'))
@@ -66,10 +66,15 @@ def result():
 
         # Execute the script to get the VM IP
         vmip_output = subprocess.check_output('./vmip.sh', shell=True, text=True)
-        time.sleep(30)
+        # time.sleep(30)
+        # print(type(vmip_output),'type')
+        # print(vmip_output,'vm output for ip')
         # Use regex to extract the IP address
-        ip_match = re.search(r'\"(\d+\.\d+\.\d+\.\d+)\"', vmip_output)
-        vmip = ip_match.group(1) if ip_match else "IP not found"
+        # ip_match = re.search(r'\"(\d+\.\d+\.\d+\.\d+)\"', vmip_output)
+        # vmip = ip_match.group(1) if ip_match else "IP not found"
+        vmip = vmip_output
+        vmip = re.sub(r'[\"\\,]', '', vmip_output).strip()
+        print(vmip,'vmippppppp')
 
     except subprocess.CalledProcessError as e:
         return f"Error executing script: {e}"

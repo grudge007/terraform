@@ -2,7 +2,7 @@
 variable "vm_name" {
   description = "Name of the VM"
   type        = string
-  default     = "harish"
+  default     = "cloud-test"
 }
 
 variable "template_name" {
@@ -14,7 +14,7 @@ variable "template_name" {
 variable "vm_cores" {
   description = "Number of CPU cores"
   type        = number
-  default     = 1
+  default     = 2
 }
 
 variable "vm_memory" {
@@ -26,7 +26,7 @@ variable "vm_memory" {
 variable "vm_storage" {
   description = "Amount of Storage in GB"
   type        = number
-  default     = 10
+  default     = 32
 }
 
 variable "ci_user" {
@@ -40,4 +40,4 @@ variable "ci_passwd" {
   type        = string
   default     = "pass"
 }
-        
+

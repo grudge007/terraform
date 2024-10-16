@@ -8,9 +8,9 @@ terraform {
 }
 
 provider "proxmox" {
-  pm_api_url      = "https://<ip>:8006/api2/json"
+  pm_api_url      = "https://192.168.28.191:8006/api2/json"
   pm_user         = "root@pam"
-  pm_password     = "<passwd>"
+  pm_password     = "C0pyC@t"
   pm_tls_insecure = true
 }
 
@@ -23,9 +23,10 @@ provider "proxmox" {
 resource "proxmox_vm_qemu" "clone_vm" {
   name        = var.vm_name
   desc        = "A test for using terraform and cloudinit"
-  target_node = "innprox"
+  target_node = "cloudpve2"
   clone       = var.template_name
-
+  # count       = 5
+  # vm_state    = "stopped"
   # VM settings
   agent   = 1
   os_type = "cloud-init"
@@ -35,13 +36,13 @@ resource "proxmox_vm_qemu" "clone_vm" {
   scsihw  = "virtio-scsi-pci"
   boot    = "order=scsi0"
   cpu     = "x86-64-v2-AES"
-
+  #  automatic_reboot = false
   # Setup the disks
   disks {
     ide {
       ide2 {
         cloudinit {
-          storage = "local-lvm"
+          storage = "storage1"
         }
       }
     }
@@ -50,7 +51,7 @@ resource "proxmox_vm_qemu" "clone_vm" {
         disk {
           size      = var.vm_storage
           cache     = "writeback"
-          storage   = "local-lvm"
+          storage   = "storage1"
           replicate = true
         }
       }
@@ -81,9 +82,9 @@ resource "proxmox_vm_qemu" "clone_vm" {
 }
 
 # Output the VMID after the VM is created
-output "new_vm_id" {
-  value       = proxmox_vm_qemu.clone_vm.id
-  description = "The VMID of the newly cloned VM"
+  output "new_vm_id" {
+    value       = proxmox_vm_qemu.clone_vm.id
+    description = "The VMID of the newly cloned VM"
 }
 
 # Null resource to fetch the IP using the newly created VMID
@@ -93,4 +94,9 @@ output "new_vm_id" {
 #  }
 #
 #  depends_on = [proxmox_vm_qemu.clone_vm]
+#}
+# Output the VMIDs of the newly cloned VMs
+#output "new_vm_ids" {
+#  value       = [for i in range(0, length(proxmox_vm_qemu.clone_vm)) : proxmox_vm_qemu.clone_vm[i].id]
+#  description = "The VMIDs of the newly cloned VMs"
 #}
