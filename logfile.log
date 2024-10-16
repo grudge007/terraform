@@ -1,14 +1,1 @@
-2024-10-14 16:43:46,001 p=294393 u=iamgrudge n=ansible | PLAY [vmgroup] **************************************************************************************************************************************************************
-2024-10-14 16:43:46,004 p=294393 u=iamgrudge n=ansible | TASK [Gathering Facts] ******************************************************************************************************************************************************
-2024-10-14 16:43:47,195 p=294393 u=iamgrudge n=ansible | [WARNING]: Platform linux on host vm-1 is using the discovered Python interpreter at /usr/bin/python3.11, but future installation of another Python interpreter could change
-the meaning of that path. See https://docs.ansible.com/ansible-core/2.17/reference_appendices/interpreter_discovery.html for more information.
 
-2024-10-14 16:43:47,195 p=294393 u=iamgrudge n=ansible | ok: [vm-1]
-2024-10-14 16:43:47,209 p=294393 u=iamgrudge n=ansible | TASK [Run the network command on the VM] ************************************************************************************************************************************
-2024-10-14 16:43:48,179 p=294393 u=iamgrudge n=ansible | changed: [vm-1]
-2024-10-14 16:43:48,187 p=294393 u=iamgrudge n=ansible | TASK [Display the output on machine-1] **************************************************************************************************************************************
-2024-10-14 16:43:48,196 p=294393 u=iamgrudge n=ansible | ok: [vm-1] => {
-    "msg": "\"192.168.1.99\","
-}
-2024-10-14 16:43:48,217 p=294393 u=iamgrudge n=ansible | PLAY RECAP ******************************************************************************************************************************************************************
-2024-10-14 16:43:48,217 p=294393 u=iamgrudge n=ansible | vm-1                       : ok=3    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
