@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 2024-10-15 17:46:15,768 p=468088 u=iamgrudge n=ansible | PLAY [vmgroup] *******************************************************************************
 2024-10-15 17:46:15,774 p=468088 u=iamgrudge n=ansible | TASK [Gathering Facts] ***********************************************************************
 2024-10-15 17:46:17,455 p=468088 u=iamgrudge n=ansible | [WARNING]: Platform linux on host vm-1 is using the discovered Python interpreter at
@@ -14,3 +15,6 @@ core/2.17/reference_appendices/interpreter_discovery.html for more information.
 }
 2024-10-15 17:46:18,771 p=468088 u=iamgrudge n=ansible | PLAY RECAP ***********************************************************************************
 2024-10-15 17:46:18,771 p=468088 u=iamgrudge n=ansible | vm-1                       : ok=3    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+=======
+
+>>>>>>> cad0ddae9a39b92e99a1581c2f37752691612e9a
